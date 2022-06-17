@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator graphql {
+  provider   = "graphql-schema-generator"
+  output     = "../src/schemas"
+  format     = "ts"
+  createCRUD = "true"
+}
+
+model todo {
+  id         String    @id @unique @default(uuid()) @db.Char(36)
+  task       String
+  completed  Boolean
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt @db.Timestamp(6)
+}
