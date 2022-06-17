@@ -1,28 +1,27 @@
 import { ApolloServer, gql } from 'apollo-server-cloudflare';
 import { graphqlCloudflare } from 'apollo-server-cloudflare/dist/cloudflareApollo';
-import { PrismaClient } from '@prisma/client/edge';
 
 import resolvers from '../../resolvers';
 import schema from '../../schemas/schema';
 
-const db = new PrismaClient();
+import { PrismaClient } from '@prisma/client/edge';
+import { DataSource } from 'apollo-datasource';
 
-const dataSources = () => ({
-    db: db as PrismaClient,
-});
 const typeDefs = gql(schema);
 
-const createServer = () =>
+const createServer = (graphQLOptions: any) =>
     new ApolloServer({
         typeDefs,
         resolvers,
         introspection: true,
-        dataSources,
+        // dataSources: () => ({
+        //     store: new Store(db),
+        // }),
         ...{},
     });
 
-export default async (req: any) => {
-    const server = createServer();
+export default async (req: any, graphQLOptions: any) => {
+    const server = createServer(graphQLOptions);
     await server.start();
     return graphqlCloudflare(() => server.createGraphQLServerOptions(req))(req);
 };

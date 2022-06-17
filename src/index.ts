@@ -67,7 +67,7 @@ export default {
                 const response: any =
                     request.method === 'OPTIONS'
                         ? new Response('', { status: 204 })
-                        : await apollo(request);
+                        : await apollo(request, graphQLOptions);
                 if (graphQLOptions.cors) {
                     setCors(response, graphQLOptions.cors);
                 }

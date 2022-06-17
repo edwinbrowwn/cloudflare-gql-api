@@ -2,6 +2,9 @@ name = "cloudflare-gql-api"
 main = "src/index.ts"
 compatibility_date = "2022-06-16"
 
+type = "webpack"
+webpack_config = "webpack.config.js"
+
 node_compat = true
 
 [dev]

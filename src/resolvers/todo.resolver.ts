@@ -1,14 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import db from '../utils/db';
 
 export const todoResolver = {
     Query: {
-        pokemon: async (
+        todo: async (
             _source: any,
             { public_id }: any,
-            { dataSources }: PrismaClient,
+            { dataSources }: any,
         ) => {
-            console.log(public_id);
+            const thisOne = await db.todo.findUnique({ where: { public_id } });
+            console.log(thisOne);
             return [];
+            // return await db.todo.findUnique({ where: { public_id } });
             // return await dataSources.;
         },
     },
