@@ -1,11 +1,11 @@
 name = "cloudflare-gql-api"
-main = "src/index.ts"
+main = "worker/script.js"
 compatibility_date = "2022-06-16"
 
-type = "webpack"
-webpack_config = "webpack.config.js"
+# node_compat = true
 
-node_compat = true
+[build]
+command = "npm run build" # or "yarn build"
 
 [dev]
 local_protocol="http"

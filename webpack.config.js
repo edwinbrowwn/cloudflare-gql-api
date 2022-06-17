@@ -1,7 +1,11 @@
-const path = require('path')
+const path = require('path');
+const {
+  WranglerJsCompatWebpackPlugin,
+} = require("wranglerjs-compat-webpack-plugin");
 
 module.exports = {
   entry: './src/index.ts',
+  plugins: [new WranglerJsCompatWebpackPlugin()],
   output: {
     filename: 'worker.js',
     path: path.join(__dirname, 'dist'),
@@ -35,6 +39,11 @@ module.exports = {
           }
         }
       },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: "javascript/auto"
+      }
     ],
   },
 }
