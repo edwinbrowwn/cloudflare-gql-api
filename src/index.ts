@@ -55,80 +55,43 @@ export interface Env {
     // MY_BUCKET: R2Bucket;
 }
 
-// export default {
-//     async fetch(
-//         request: Request,
-//         env: Env,
-//         ctx: ExecutionContext,
-//     ): Promise<Response> {
-//         const url = new URL(request.url);
-//         try {
-//             if (url.pathname === graphQLOptions.baseEndpoint) {
-//                 const response: any =
-//                     request.method === 'OPTIONS'
-//                         ? new Response('', { status: 204 })
-//                         : await apollo(request, graphQLOptions);
-//                 if (graphQLOptions.cors) {
-//                     setCors(response, graphQLOptions.cors);
-//                 }
-//                 return response;
-//             } else if (
-//                 graphQLOptions.playgroundEndpoint &&
-//                 url.pathname === graphQLOptions.playgroundEndpoint
-//             ) {
-//                 return playground(request, graphQLOptions);
-//             } else if (graphQLOptions.forwardUnmatchedRequestsToOrigin) {
-//                 return fetch(request);
-//             } else {
-//                 return new Response('Not found', { status: 404 });
-//             }
-//         } catch (err) {
-//             // @ts-ignore
-//             return new Response(
-//                 // @ts-ignore
-//                 graphQLOptions.debug ? err : 'Something went wrong',
-//                 {
-//                     status: 500,
-//                 },
-//             );
-//         }
-//         return new Response('Hello World!');
-//     },
-// };
-
-const handleRequest = async (request: any) => {
-    const url = new URL(request.url);
-    try {
-        if (url.pathname === graphQLOptions.baseEndpoint) {
-            const response =
-                request.method === 'OPTIONS'
-                    ? new Response('', { status: 204 })
-                    : await apollo(request, graphQLOptions);
-            if (graphQLOptions.cors) {
-                setCors(response, graphQLOptions.cors);
+export default {
+    async fetch(
+        request: Request,
+        env: Env,
+        ctx: ExecutionContext,
+    ): Promise<Response> {
+        const url = new URL(request.url);
+        try {
+            if (url.pathname === graphQLOptions.baseEndpoint) {
+                const response: any =
+                    request.method === 'OPTIONS'
+                        ? new Response('', { status: 204 })
+                        : await apollo(request, graphQLOptions);
+                if (graphQLOptions.cors) {
+                    setCors(response, graphQLOptions.cors);
+                }
+                return response;
+            } else if (
+                graphQLOptions.playgroundEndpoint &&
+                url.pathname === graphQLOptions.playgroundEndpoint
+            ) {
+                return playground(request, graphQLOptions);
+            } else if (graphQLOptions.forwardUnmatchedRequestsToOrigin) {
+                return fetch(request);
+            } else {
+                return new Response('Not found', { status: 404 });
             }
-            return response;
-        } else if (
-            graphQLOptions.playgroundEndpoint &&
-            url.pathname === graphQLOptions.playgroundEndpoint
-        ) {
-            return playground(request, graphQLOptions);
-        } else if (graphQLOptions.forwardUnmatchedRequestsToOrigin) {
-            return fetch(request);
-        } else {
-            return new Response('Not found', { status: 404 });
-        }
-    } catch (err) {
-        return new Response(
+        } catch (err) {
             // @ts-ignore
-            graphQLOptions.debug ? err : 'Something went wrong',
-            {
-                status: 500,
-            },
-        );
-    }
+            return new Response(
+                // @ts-ignore
+                graphQLOptions.debug ? err : 'Something went wrong',
+                {
+                    status: 500,
+                },
+            );
+        }
+        return new Response('Hello World!');
+    },
 };
-
-addEventListener('fetch', (event: any) => {
-    event.respondWith(handleRequest(event.request));
-});

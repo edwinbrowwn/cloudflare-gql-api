@@ -1,11 +1,8 @@
 name = "cloudflare-gql-api"
-main = "worker/script.js"
+main = "src/index.ts"
 compatibility_date = "2022-06-16"
 
-# node_compat = true
-
-[build]
-command = "npm run build" # or "yarn build"
+node_compat = true
 
 [dev]
 local_protocol="http"
