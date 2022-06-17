@@ -8,32 +8,37 @@ Read more about in https://github.com/edwinbrowwn/cf-graphql-schema-generator.
 """
 `
 export const schema = ` type Query {
-  pokemon(public_id: ID!): pokemon
-  pokemons: [pokemon!]!
+  todo(id: ID!): todo
+  todos: [todo!]!
 }
 
-input pokemonCreateInput {
-  name: String!
-  height: Int!
-  weight: Int!
+input todoCreateInput {
+  task: String!
+  completed: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime
 }
 
-input pokemonUpdateInput {
-  name: String
-  height: Int
-  weight: Int
+input todoUpdateInput {
+  task: String
+  completed: Boolean
+  created_at: DateTime
+  updated_at: DateTime
 }
 
 type Mutation {
-  createpokemon(pokemon: pokemonCreateInput!): pokemon
-  updatepokemon(pokemon: pokemonUpdateInput!): pokemon
-  deletepokemon(public_id: ID!): pokemon
+  createtodo(todo: todoCreateInput!): todo
+  updatetodo(todo: todoUpdateInput!): todo
+  deletetodo(id: ID!): todo
 }
 
-type pokemon {
-  public_id: ID!
-  name: String!
-  height: Int!
-  weight: Int!
+scalar DateTime
+
+type todo {
+  id: ID!
+  task: String!
+  completed: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime
 }` 
 export default schema;
